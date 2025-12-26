@@ -3,12 +3,11 @@ blueprint:
   description: >
     ZHA blueprint for the Sonoff SNZB‑01M using zha_event. Supports 4 buttons
     (endpoints 1–4), each providing single, double, triple and long press actions
-    — 16 actions in total. 
-    
+    — 16 actions in total.
+
     Uses the actual ZHA commands emitted by the SNZB‑01M
     (FC12 cluster). Requires either native ZHA support for this model or an
     appropriate quirk enabling correct FC12 event mapping.
-
 
     Physical button embossing:
       • Top Left  → one dot
