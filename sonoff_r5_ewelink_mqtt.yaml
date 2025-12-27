@@ -1,0 +1,366 @@
+blueprint:
+  name: Sonoff R5 – eWeLink Remote MQTT
+  description: >
+    This blueprint is designed specifically for use with the **eWeLink Remote add-on**
+    operating through an **MQTT Broker**.
+    It supports 6-button Sonoff R5 remotes that are recognized by the add-on as R5 devices.
+
+    Each button supports **Single Click**, **Double Click**, and **Long Click** actions.
+  domain: automation
+  author: jam3
+  input:
+    sonoff_remote:
+      name: Sonoff R5 Remote
+      description: >
+        Make sure that the chosen MQTT device is an R5 remote detected via the eWeLink add‑on.
+      selector:
+        device:
+          integration: mqtt
+          manufacturer: SONOFF
+          model: R5
+          
+    automation_mode:
+      name: Automation Mode
+      description: >
+        Only one automation mode can be used for all buttons.  
+        Automation modes documentation:
+        (https://www.home-assistant.io/docs/automation/modes/).
+      default: queued
+      selector:
+        select:
+          mode: dropdown
+          options:
+            - queued
+            - single
+            - restart
+            - parallel
+          multiple: false
+          custom_value: false
+          sort: false
+
+    # --- ACTION INPUTS (18) ---
+    top_left_single:
+      name: Top Left – Single Click
+      default: []
+      selector: {action: {}}
+
+    top_left_double:
+      name: Top Left – Double Click
+      default: []
+      selector: {action: {}}
+
+    top_left_long:
+      name: Top Left – Long Click
+      default: []
+      selector: {action: {}}
+
+    top_center_single:
+      name: Top Center – Single Click
+      default: []
+      selector: {action: {}}
+
+    top_center_double:
+      name: Top Center – Double Click
+      default: []
+      selector: {action: {}}
+
+    top_center_long:
+      name: Top Center – Long Click
+      default: []
+      selector: {action: {}}
+
+    top_right_single:
+      name: Top Right – Single Click
+      default: []
+      selector: {action: {}}
+
+    top_right_double:
+      name: Top Right – Double Click
+      default: []
+      selector: {action: {}}
+
+    top_right_long:
+      name: Top Right – Long Click
+      default: []
+      selector: {action: {}}
+
+    bottom_left_single:
+      name: Bottom Left – Single Click
+      default: []
+      selector: {action: {}}
+
+    bottom_left_double:
+      name: Bottom Left – Double Click
+      default: []
+      selector: {action: {}}
+
+    bottom_left_long:
+      name: Bottom Left – Long Click
+      default: []
+      selector: {action: {}}
+
+    bottom_center_single:
+      name: Bottom Center – Single Click
+      default: []
+      selector: {action: {}}
+
+    bottom_center_double:
+      name: Bottom Center – Double Click
+      default: []
+      selector: {action: {}}
+
+    bottom_center_long:
+      name: Bottom Center – Long Click
+      default: []
+      selector: {action: {}}
+
+    bottom_right_single:
+      name: Bottom Right – Single Click
+      default: []
+      selector: {action: {}}
+
+    bottom_right_double:
+      name: Bottom Right – Double Click
+      default: []
+      selector: {action: {}}
+
+    bottom_right_long:
+      name: Bottom Right – Long Click
+      default: []
+      selector: {action: {}}
+
+mode: !input automation_mode
+
+trigger:
+
+  # --- TOP LEFT ---
+  - id: tls
+    platform: device
+    device_id: !input sonoff_remote
+    domain: mqtt
+    type: Top Left
+    subtype: Single Click
+
+  - id: tld
+    platform: device
+    device_id: !input sonoff_remote
+    domain: mqtt
+    type: Top Left
+    subtype: Double Click
+
+  - id: tll
+    platform: device
+    device_id: !input sonoff_remote
+    domain: mqtt
+    type: Top Left
+    subtype: Long Click
+
+  # --- TOP CENTER ---
+  - id: tcs
+    platform: device
+    device_id: !input sonoff_remote
+    domain: mqtt
+    type: Top Center
+    subtype: Single Click
+
+  - id: tcd
+    platform: device
+    device_id: !input sonoff_remote
+    domain: mqtt
+    type: Top Center
+    subtype: Double Click
+
+  - id: tcl
+    platform: device
+    device_id: !input sonoff_remote
+    domain: mqtt
+    type: Top Center
+    subtype: Long Click
+
+  # --- TOP RIGHT ---
+  - id: trs
+    platform: device
+    device_id: !input sonoff_remote
+    domain: mqtt
+    type: Top Right
+    subtype: Single Click
+
+  - id: trd
+    platform: device
+    device_id: !input sonoff_remote
+    domain: mqtt
+    type: Top Right
+    subtype: Double Click
+
+  - id: trl
+    platform: device
+    device_id: !input sonoff_remote
+    domain: mqtt
+    type: Top Right
+    subtype: Long Click
+
+  # --- BOTTOM LEFT ---
+  - id: bls
+    platform: device
+    device_id: !input sonoff_remote
+    domain: mqtt
+    type: Bottom Left
+    subtype: Single Click
+
+  - id: bld
+    platform: device
+    device_id: !input sonoff_remote
+    domain: mqtt
+    type: Bottom Left
+    subtype: Double Click
+
+  - id: bll
+    platform: device
+    device_id: !input sonoff_remote
+    domain: mqtt
+    type: Bottom Left
+    subtype: Long Click
+
+  # --- BOTTOM CENTER ---
+  - id: bcs
+    platform: device
+    device_id: !input sonoff_remote
+    domain: mqtt
+    type: Bottom Center
+    subtype: Single Click
+
+  - id: bcd
+    platform: device
+    device_id: !input sonoff_remote
+    domain: mqtt
+    type: Bottom Center
+    subtype: Double Click
+
+  - id: bcl
+    platform: device
+    device_id: !input sonoff_remote
+    domain: mqtt
+    type: Bottom Center
+    subtype: Long Click
+
+  # --- BOTTOM RIGHT ---
+  - id: brs
+    platform: device
+    device_id: !input sonoff_remote
+    domain: mqtt
+    type: Bottom Right
+    subtype: Single Click
+
+  - id: brd
+    platform: device
+    device_id: !input sonoff_remote
+    domain: mqtt
+    type: Bottom Right
+    subtype: Double Click
+
+  - id: brl
+    platform: device
+    device_id: !input sonoff_remote
+    domain: mqtt
+    type: Bottom Right
+    subtype: Long Click
+
+action:
+  - delay: 0.4
+  - choose:
+
+      # --- TOP LEFT ---
+      - conditions:
+          - condition: trigger
+            id: tls
+        sequence: !input top_left_single
+
+      - conditions:
+          - condition: trigger
+            id: tld
+        sequence: !input top_left_double
+
+      - conditions:
+          - condition: trigger
+            id: tll
+        sequence: !input top_left_long
+
+      # --- TOP CENTER ---
+      - conditions:
+          - condition: trigger
+            id: tcs
+        sequence: !input top_center_single
+
+      - conditions:
+          - condition: trigger
+            id: tcd
+        sequence: !input top_center_double
+
+      - conditions:
+          - condition: trigger
+            id: tcl
+        sequence: !input top_center_long
+
+      # --- TOP RIGHT ---
+      - conditions:
+          - condition: trigger
+            id: trs
+        sequence: !input top_right_single
+
+      - conditions:
+          - condition: trigger
+            id: trd
+        sequence: !input top_right_double
+
+      - conditions:
+          - condition: trigger
+            id: trl
+        sequence: !input top_right_long
+
+      # --- BOTTOM LEFT ---
+      - conditions:
+          - condition: trigger
+            id: bls
+        sequence: !input bottom_left_single
+
+      - conditions:
+          - condition: trigger
+            id: bld
+        sequence: !input bottom_left_double
+
+      - conditions:
+          - condition: trigger
+            id: bll
+        sequence: !input bottom_left_long
+
+      # --- BOTTOM CENTER ---
+      - conditions:
+          - condition: trigger
+            id: bcs
+        sequence: !input bottom_center_single
+
+      - conditions:
+          - condition: trigger
+            id: bcd
+        sequence: !input bottom_center_double
+
+      - conditions:
+          - condition: trigger
+            id: bcl
+        sequence: !input bottom_center_long
+
+      # --- BOTTOM RIGHT ---
+      - conditions:
+          - condition: trigger
+            id: brs
+        sequence: !input bottom_right_single
+
+      - conditions:
+          - condition: trigger
+            id: brd
+        sequence: !input bottom_right_double
+
+      - conditions:
+          - condition: trigger
+            id: brl
+        sequence: !input bottom_right_long
