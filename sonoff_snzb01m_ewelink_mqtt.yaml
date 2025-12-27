@@ -1,0 +1,270 @@
+blueprint:
+  name: Sonoff SNZB‑01M (R5) – eWeLink Remote MQTT
+  description: >
+    This blueprint is designed specifically for use with the **eWeLink Remote add-on**
+    operating through an **MQTT Broker**.  
+    It supports 4-button Sonoff SNZB-01M remotes that are recognized by the add-on as
+    R5-compatible devices.  
+
+    Physical button embossing:
+      • Top Left → *one dot*  
+      • Top Right → *two dots*  
+      • Bottom Left → *three dots*  
+      • Bottom Right → *four dots*
+
+    Each button supports **Single Click**, **Double Click**, and **Long Click** actions.
+  domain: automation
+  author: jam3
+  input:
+    sonoff_remote:
+      name: Sonoff SNZB‑01M (R5) Remote
+      description: >
+        Make sure the chosen MQTT device is a 4-button remote detected via the eWeLink add‑on.
+      selector:
+        device:
+          integration: mqtt
+          manufacturer: SONOFF
+          model: R5
+
+    automation_mode:
+      name: Automation Mode
+      description: >
+        Only one automation mode can be used for all buttons.  
+        Automation modes documentation:  
+        https://www.home-assistant.io/docs/automation/modes/
+      default: queued
+      selector:
+        select:
+          mode: dropdown
+          options:
+            - queued
+            - single
+            - restart
+            - parallel
+          multiple: false
+          custom_value: false
+          sort: false
+
+    # --- BUTTON 1 (Top Left – one dot) ---
+    btn1_single:
+      name: Button 1 – Single Click
+      description: >
+        Physical marking: **one dot**
+      default: []
+      selector: {action: {}}
+
+    btn1_double:
+      name: Button 1 – Double Click
+      description: >
+        Physical marking: **one dot**
+      default: []
+      selector: {action: {}}
+
+    btn1_long:
+      name: Button 1 – Long Click
+      description: >
+        Physical marking: **one dot**
+      default: []
+      selector: {action: {}}
+
+    # --- BUTTON 2 (Top Center – two dots) ---
+    btn2_single:
+      name: Button 2 – Single Click
+      description: >
+        Physical marking: **two dots**
+      default: []
+      selector: {action: {}}
+
+    btn2_double:
+      name: Button 2 – Double Click
+      description: >
+        Physical marking: **two dots**
+      default: []
+      selector: {action: {}}
+
+    btn2_long:
+      name: Button 2 – Long Click
+      description: >
+        Physical marking: **two dots**
+      default: []
+      selector: {action: {}}
+
+    # --- BUTTON 3 (Top Right – three dots) ---
+    btn3_single:
+      name: Button 3 – Single Click
+      description: >
+        Physical marking: **three dots**
+      default: []
+      selector: {action: {}}
+
+    btn3_double:
+      name: Button 3 – Double Click
+      description: >
+        Physical marking: **three dots**
+      default: []
+      selector: {action: {}}
+
+    btn3_long:
+      name: Button 3 – Long Click
+      description: >
+        Physical marking: **three dots**
+      default: []
+      selector: {action: {}}
+
+    # --- BUTTON 4 (Bottom Left – four dots) ---
+    btn4_single:
+      name: Button 4 – Single Click
+      description: >
+        Physical marking: **four dots**
+      default: []
+      selector: {action: {}}
+
+    btn4_double:
+      name: Button 4 – Double Click
+      description: >
+        Physical marking: **four dots**
+      default: []
+      selector: {action: {}}
+
+    btn4_long:
+      name: Button 4 – Long Click
+      description: >
+        Physical marking: **four dots**
+      default: []
+      selector: {action: {}}
+
+mode: !input automation_mode
+
+trigger:
+
+  # --- BUTTON 1 (Top Left – one dot) ---
+  - id: b1s
+    platform: device
+    device_id: !input sonoff_remote
+    domain: mqtt
+    type: Top Left
+    subtype: Single Click
+
+  - id: b1d
+    platform: device
+    device_id: !input sonoff_remote
+    domain: mqtt
+    type: Top Left
+    subtype: Double Click
+
+  - id: b1l
+    platform: device
+    device_id: !input sonoff_remote
+    domain: mqtt
+    type: Top Left
+    subtype: Long Click
+
+  # --- BUTTON 2 (Top Center – two dots) ---
+  - id: b2s
+    platform: device
+    device_id: !input sonoff_remote
+    domain: mqtt
+    type: Top Center
+    subtype: Single Click
+
+  - id: b2d
+    platform: device
+    device_id: !input sonoff_remote
+    domain: mqtt
+    type: Top Center
+    subtype: Double Click
+
+  - id: b2l
+    platform: device
+    device_id: !input sonoff_remote
+    domain: mqtt
+    type: Top Center
+    subtype: Long Click
+
+  # --- BUTTON 3 (Top Right – three dots) ---
+  - id: b3s
+    platform: device
+    device_id: !input sonoff_remote
+    domain: mqtt
+    type: Top Right
+    subtype: Single Click
+
+  - id: b3d
+    platform: device
+    device_id: !input sonoff_remote
+    domain: mqtt
+    type: Top Right
+    subtype: Double Click
+
+  - id: b3l
+    platform: device
+    device_id: !input sonoff_remote
+    domain: mqtt
+    type: Top Right
+    subtype: Long Click
+
+  # --- BUTTON 4 (Bottom Left – four dots) ---
+  - id: b4s
+    platform: device
+    device_id: !input sonoff_remote
+    domain: mqtt
+    type: Bottom Left
+    subtype: Single Click
+
+  - id: b4d
+    platform: device
+    device_id: !input sonoff_remote
+    domain: mqtt
+    type: Bottom Left
+    subtype: Double Click
+
+  - id: b4l
+    platform: device
+    device_id: !input sonoff_remote
+    domain: mqtt
+    type: Bottom Left
+    subtype: Long Click
+
+action:
+  - delay: 0.4
+  - choose:
+
+      # --- BUTTON 1 ---
+      - conditions: {condition: trigger, id: b1s}
+        sequence: !input btn1_single
+
+      - conditions: {condition: trigger, id: b1d}
+        sequence: !input btn1_double
+
+      - conditions: {condition: trigger, id: b1l}
+        sequence: !input btn1_long
+
+      # --- BUTTON 2 ---
+      - conditions: {condition: trigger, id: b2s}
+        sequence: !input btn2_single
+
+      - conditions: {condition: trigger, id: b2d}
+        sequence: !input btn2_double
+
+      - conditions: {condition: trigger, id: b2l}
+        sequence: !input btn2_long
+
+      # --- BUTTON 3 ---
+      - conditions: {condition: trigger, id: b3s}
+        sequence: !input btn3_single
+
+      - conditions: {condition: trigger, id: b3d}
+        sequence: !input btn3_double
+
+      - conditions: {condition: trigger, id: b3l}
+        sequence: !input btn3_long
+
+      # --- BUTTON 4 ---
+      - conditions: {condition: trigger, id: b4s}
+        sequence: !input btn4_single
+
+      - conditions: {condition: trigger, id: b4d}
+        sequence: !input btn4_double
+
+      - conditions: {condition: trigger, id: b4l}
+        sequence: !input btn4_long
